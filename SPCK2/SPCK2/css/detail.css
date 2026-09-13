@@ -1,0 +1,122 @@
+.detail-page {
+    min-height: calc(100vh - 56px);
+    padding: 40px 20px 60px;
+    background: #f5f7fa;
+}
+
+.detail-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.detail-category {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #3d84a8;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.detail-title {
+    margin-bottom: 18px;
+    font-size: 38px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #212529;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-bottom: 25px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.detail-meta span {
+    display: inline-block;
+}
+
+.detail-img {
+    display: block;
+    width: 100%;
+    max-height: 550px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 25px auto 30px;
+}
+
+.detail-no-image {
+    width: 100%;
+    padding: 80px 20px;
+    margin: 25px 0 30px;
+    border-radius: 12px;
+    background: #f1f3f5;
+    text-align: center;
+    color: #6c757d;
+}
+
+.detail-content {
+    font-size: 18px;
+    line-height: 1.9;
+    color: #343a40;
+    white-space: pre-line;
+}
+
+.detail-content p {
+    margin-bottom: 18px;
+}
+
+.detail-back {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #dee2e6;
+}
+
+.detail-loading {
+    text-align: center;
+    padding: 70px 20px;
+    color: #6c757d;
+}
+
+.detail-error {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.detail-error h2 {
+    margin-bottom: 12px;
+    color: #dc3545;
+}
+
+@media (max-width: 768px) {
+
+    .detail-page {
+        padding: 20px 12px 40px;
+    }
+
+    .detail-container {
+        padding: 25px 18px;
+        border-radius: 12px;
+    }
+
+    .detail-title {
+        font-size: 28px;
+    }
+
+    .detail-content {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+}

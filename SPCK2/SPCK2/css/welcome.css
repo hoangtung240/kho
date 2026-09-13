@@ -1,0 +1,198 @@
+.welcome-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.18), transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(124, 58, 237, 0.16), transparent 32%),
+        linear-gradient(135deg, #eef4ff 0%, #f8f9ff 50%, #eef2ff 100%);
+}
+
+.welcome-page::before,
+.welcome-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(2px);
+}
+
+.welcome-page::before {
+    width: 280px;
+    height: 280px;
+    top: -110px;
+    left: -100px;
+    background: rgba(59, 130, 246, 0.12);
+}
+
+.welcome-page::after {
+    width: 320px;
+    height: 320px;
+    right: -130px;
+    bottom: -130px;
+    background: rgba(124, 58, 237, 0.10);
+}
+
+.welcome-box {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 540px);
+    padding: 52px 52px 48px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 28px;
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.14),
+        0 8px 25px rgba(15, 23, 42, 0.07);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    animation: welcomeFade 0.65s ease-out both;
+}
+
+.welcome-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 34px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
+}
+
+.welcome-box h1 {
+    margin: 0 0 12px;
+    color: #111827;
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.welcome-text {
+    margin: 0 auto 34px;
+    color: #64748b;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.welcome-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    width: 100%;
+    margin: 0;
+    padding: 0 24px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 650;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.welcome-link.login {
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    box-shadow: 0 9px 22px rgba(37, 99, 235, 0.25);
+}
+
+.welcome-link.login:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.32);
+}
+
+.welcome-link.register {
+    color: #2563eb;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+}
+
+.welcome-link.register:hover {
+    color: #1d4ed8;
+    background: #dbeafe;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.12);
+}
+
+.welcome-link:active {
+    transform: translateY(0) scale(0.99);
+}
+
+@keyframes welcomeFade {
+    from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .welcome-page {
+        padding: 18px;
+    }
+
+    .welcome-box {
+        padding: 40px 24px 34px;
+        border-radius: 22px;
+    }
+
+    .welcome-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 18px;
+        font-size: 30px;
+    }
+
+    .welcome-box h1 {
+        font-size: 32px;
+        letter-spacing: -0.8px;
+    }
+
+    .welcome-text {
+        margin-bottom: 28px;
+        font-size: 15px;
+    }
+
+    .welcome-link {
+        min-height: 54px;
+        font-size: 16px;
+    }
+}
+.welcome-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.welcome-link {
+    width: 100%;
+    min-height: 64px;
+    margin: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,426 @@
+.account-widget {
+    position: fixed;
+    top: 9px;
+    right: 18px;
+    z-index: 1100;
+    font-family: inherit;
+}
+
+.navbar .account-widget {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-left: 14px;
+}
+
+.account-avatar-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.22);
+    font-size: 17px;
+    font-weight: 800;
+    transition: 0.2s ease;
+}
+
+.account-avatar-btn:hover {
+    transform: scale(1.06);
+}
+
+.account-avatar-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.account-menu {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 290px;
+    padding: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+    color: #111827;
+    display: none;
+    box-sizing: border-box;
+}
+
+.account-menu.show {
+    display: block;
+}
+
+.account-menu-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.account-menu-avatar {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    font-weight: 800;
+}
+
+.account-menu-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.account-menu-name {
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.account-menu-email {
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+.account-menu-item {
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 11px;
+    border: 0;
+    border-radius: 11px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    color: #1f2937;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: 0.18s ease;
+}
+
+.account-menu-item:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.account-menu-item.danger:hover {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.account-menu-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 7px 4px;
+}
+
+.account-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+}
+
+.account-selector {
+    width: min(100%, 460px);
+    max-height: 90vh;
+    overflow: auto;
+    padding: 26px;
+    border-radius: 22px;
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 25px 80px rgba(15, 23, 42, 0.28);
+    box-sizing: border-box;
+    animation: accountModalIn 0.22s ease-out;
+}
+
+.account-selector h3 {
+    margin: 0 0 7px;
+    color: #111827;
+    font-size: 24px;
+}
+
+.account-selector > p {
+    margin: 0 0 18px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.account-selector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 18px;
+}
+
+.account-selector-item {
+    width: 100%;
+    min-height: 65px;
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    background: #ffffff;
+    color: #111827;
+    cursor: pointer;
+    text-align: left;
+    box-sizing: border-box;
+    transition: 0.18s ease;
+}
+
+.account-selector-item img {
+    display: none !important;
+}
+
+.account-selector-item .account-avatar-fallback {
+    display: none !important;
+}
+
+.account-selector-item > span:first-child {
+    display: none !important;
+}
+
+.account-selector-info {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-selector-info strong {
+    display: block;
+    color: #111827;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.account-selector-info small {
+    display: block;
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.account-selector-item:hover {
+    border-color: #93c5fd;
+    background: #f8fbff;
+}
+
+.account-selector-item.selected {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.account-selector-password {
+    width: 100%;
+    height: 46px;
+    padding: 0 13px;
+    margin: 0 0 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 11px;
+    outline: none;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #111827;
+    font-size: 15px;
+}
+
+.account-selector-password:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.account-selector-confirm,
+.account-selector-cancel {
+    width: 100%;
+    height: 45px;
+    margin-top: 8px;
+    border: 0;
+    border-radius: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.account-selector-confirm {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.account-selector-confirm:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.account-selector-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.account-selector-cancel:hover {
+    background: #e2e8f0;
+}
+
+.welcome-accounts {
+    margin-top: 26px;
+    text-align: left;
+}
+
+.welcome-current-label,
+.welcome-other-label {
+    margin: 0 0 9px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.welcome-account-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    background: #f8fbff;
+    cursor: pointer;
+    text-align: left;
+    box-sizing: border-box;
+    transition: 0.18s ease;
+}
+
+.welcome-account-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.1);
+}
+
+.welcome-account-avatar {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    font-weight: 800;
+}
+
+.welcome-account-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.welcome-account-name {
+    display: block;
+    color: #111827;
+    font-weight: 800;
+}
+
+.welcome-account-email {
+    display: block;
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.welcome-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 56px;
+    margin-top: 15px;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 1px solid #dbeafe;
+    background: #eff6ff;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 700;
+    box-sizing: border-box;
+    transition: 0.2s ease;
+}
+
+.welcome-next:hover {
+    color: #1d4ed8;
+    background: #dbeafe;
+    transform: translateY(-2px);
+}
+
+.welcome-other {
+    margin-top: 18px;
+}
+
+@keyframes accountModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .account-widget {
+        top: 10px;
+        right: 12px;
+    }
+
+    .navbar .account-widget {
+        margin-left: 8px;
+    }
+
+    .account-menu {
+        width: min(290px, calc(100vw - 24px));
+    }
+
+    .account-selector {
+        width: 100%;
+        padding: 20px;
+        border-radius: 18px;
+    }
+}

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gửi tin tức - Tin Tức</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/account.css">
+    <link rel="stylesheet" href="../css/submit.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="index.html">
+            Tin Tức
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navMenu"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        Trang chủ
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                    >
+                        Mục
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+                            <a class="dropdown-item" href="thoisu.html">
+                                Thời sự
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="thegioi.html">
+                                Thế giới
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="thethao.html">
+                                Thể thao
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="giaitri.html">
+                                Giải trí
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="congnghe.html">
+                                Công nghệ
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="doisong.html">
+                                Đời sống
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<main class="submit-page">
+
+    <div class="submit-container">
+
+        <div class="submit-header">
+
+            <h1>
+                Gửi tin tức mới
+            </h1>
+
+            <p>
+                Chia sẻ những thông tin thú vị của bạn với mọi người.
+            </p>
+
+        </div>
+
+
+        <form id="submitPostForm">
+
+            <!-- TIÊU ĐỀ -->
+
+            <div class="submit-section">
+
+                <label for="postTitle">
+                    Tiêu đề bài viết
+                </label>
+
+                <input
+                    type="text"
+                    id="postTitle"
+                    class="form-control"
+                    placeholder="Nhập tiêu đề bài viết..."
+                    maxlength="150"
+                    required
+                >
+
+                <div class="submit-help">
+                    Tiêu đề nên ngắn gọn và thể hiện đúng nội dung bài viết.
+                </div>
+
+                <div
+                    id="titleWordCount"
+                    class="word-counter"
+                >
+                    0 từ
+                </div>
+
+            </div>
+
+
+            <!-- THÔNG TIN BÀI VIẾT -->
+
+            <div class="submit-section">
+
+                <h3>
+                    Thông tin bài viết
+                </h3>
+
+                <div class="submit-info-box">
+
+                    <div class="submit-info-row">
+
+                        <span class="submit-info-label">
+                            Danh mục
+                        </span>
+
+                        <select
+                            id="postCategory"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">
+                                -- Chọn danh mục --
+                            </option>
+
+                            <option value="Thời sự">
+                                Thời sự
+                            </option>
+
+                            <option value="Thế giới">
+                                Thế giới
+                            </option>
+
+                            <option value="Thể thao">
+                                Thể thao
+                            </option>
+
+                            <option value="Giải trí">
+                                Giải trí
+                            </option>
+
+                            <option value="Công nghệ">
+                                Công nghệ
+                            </option>
+
+                            <option value="Đời sống">
+                                Đời sống
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="submit-info-row">
+
+                        <span class="submit-info-label">
+                            Người đăng
+                        </span>
+
+                        <span id="submitAuthor">
+                            Đang kiểm tra tài khoản...
+                        </span>
+
+                    </div>
+
+
+                    <div class="submit-info-row">
+
+                        <span class="submit-info-label">
+                            Ngày gửi
+                        </span>
+
+                        <span id="submitDate">
+                            Hôm nay
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ẢNH -->
+
+            <div class="submit-section">
+
+                <label for="postImage">
+                    Ảnh bài viết
+                </label>
+
+                <input
+                    type="url"
+                    id="postImage"
+                    class="form-control"
+                    placeholder="Dán link ảnh vào đây..."
+                >
+
+                <div class="submit-help">
+                    Có thể bỏ trống nếu bài viết không có ảnh.
+                </div>
+
+            </div>
+
+
+            <!-- NỘI DUNG -->
+
+            <div class="submit-section">
+
+                <label for="postContent">
+                    Nội dung bài viết
+                </label>
+
+                <textarea
+                    id="postContent"
+                    class="form-control"
+                    rows="14"
+                    placeholder="Nhập toàn bộ nội dung bài viết..."
+                    required
+                ></textarea>
+
+                <div class="content-counter-row">
+
+                    <div class="submit-help">
+                        Nội dung tối thiểu 50 từ.
+                    </div>
+
+                    <div
+                        id="contentWordCount"
+                        class="word-counter"
+                    >
+                        0 từ
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ẨN DANH -->
+
+            <div class="submit-section">
+
+                <div class="anonymous-box">
+
+                    <input
+                        type="checkbox"
+                        id="postAnonymous"
+                    >
+
+                    <label for="postAnonymous">
+                        Gửi bài ẩn danh
+                    </label>
+
+                </div>
+
+                <div class="submit-help">
+                    Khi chọn ẩn danh, tên tài khoản của bạn sẽ không được
+                    hiển thị cho người đọc.
+                </div>
+
+            </div>
+
+
+            <!-- THÔNG BÁO -->
+
+            <div
+                id="submitMessage"
+                class="submit-message"
+            ></div>
+
+
+            <!-- NÚT -->
+
+            <div class="submit-actions">
+
+                <a
+                    href="index.html"
+                    class="btn btn-secondary"
+                >
+                    Hủy
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Đăng tin
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

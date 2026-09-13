@@ -1,0 +1,448 @@
+body {
+  animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card {
+  animation: slideUp 0.6s ease;
+  transition: all 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card img:hover {
+  transform: scale(1.1);
+}
+
+.title-hover {
+  transition: all 0.3s;
+}
+.detail-box {
+  max-width: 800px;
+}
+
+.detail-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.detail-img {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.detail-content {
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.back-btn {
+  margin-top: 20px;
+}
+.back-home {
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.back-home:hover {
+  transform: scale(1.1);
+  background-color: #6c757d;
+}
+
+.category-title {
+  font-size: 26px;
+  font-weight: bold;
+  border-left: 5px solid red;
+  padding-left: 10px;
+}
+.navbar {
+  transition: 0.3s;
+}
+
+.navbar:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.submit-box {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.submit-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+  border-color: #0d6efd;
+}
+.auth-container {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+    background: #f4f6f9;
+}
+
+
+.auth-box {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    animation: slideUp 0.6s ease;
+}
+
+
+.auth-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+.auth-description {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+
+.auth-box .form-control {
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+
+.auth-box .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+
+.auth-box .btn {
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+
+.auth-box .btn:hover {
+    transform: translateY(-2px);
+}
+
+
+.auth-bottom {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+
+.auth-bottom a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+
+@media (max-width: 576px) {
+    .auth-box {
+        padding: 25px 20px;
+    }
+}
+.password-box {
+    position: relative;
+}
+
+.password-box .form-control {
+    padding-right: 50px;
+}
+
+.show-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+    font-size: 20px;
+
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.show-password:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.account-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    backdrop-filter: blur(5px);
+}
+
+
+.account-selector {
+    width: 100%;
+    max-width: 450px;
+
+    padding: 30px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+
+    animation: accountPopup 0.25s ease;
+}
+
+
+.account-selector h3 {
+    margin-bottom: 8px;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+.account-selector > p {
+    margin-bottom: 22px;
+
+    color: #6b7280;
+
+    font-size: 15px;
+}
+
+.account-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+
+.account-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.account-item:hover {
+    background: #f8fafc;
+
+    border-color: #3b82f6;
+}
+
+
+.account-item input {
+    width: 18px;
+    height: 18px;
+
+    accent-color: #2563eb;
+}
+
+
+.account-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.account-info strong {
+    color: #111827;
+}
+
+
+.account-info small {
+    color: #6b7280;
+}
+
+.account-buttons {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.account-buttons button {
+    flex: 1;
+
+    height: 48px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.account-cancel {
+    background: #f1f5f9;
+
+    color: #475569;
+}
+
+
+.account-cancel:hover {
+    background: #e2e8f0;
+}
+
+
+.account-confirm {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+.account-confirm:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+@keyframes accountPopup {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+.account-password {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 15px;
+
+    margin-bottom: 8px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 16px;
+
+    box-sizing: border-box;
+
+    transition: 0.2s;
+}
+
+.account-password:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.account-error {
+    min-height: 22px;
+
+    margin: 4px 0 15px;
+
+    color: #ef4444;
+
+    font-size: 14px;
+
+    text-align: left;
+}

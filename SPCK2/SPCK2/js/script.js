@@ -17,15 +17,20 @@ function ensureDemoAdmin() {
         users = [];
     }
 
+    // Xóa tài khoản Admin demo cũ
+    users = users.filter(function (user) {
+        return user.email !== "admin@spck2.com";
+    });
+
     const adminEmail = "admin";
 
-    const existingAdmin = users.find(function (user) {
+    let adminUser = users.find(function (user) {
         return user && user.email === adminEmail;
     });
 
-    if (!existingAdmin) {
+    if (!adminUser) {
 
-        users.push({
+        adminUser = {
             name: "admin",
             email: "admin",
             password: "@@2627",
@@ -33,14 +38,16 @@ function ensureDemoAdmin() {
             wallpaper: "",
             lastUsedAt: 0,
             role: "admin"
-        });
+        };
+
+        users.push(adminUser);
 
     } else {
 
-        existingAdmin.name = "admin";
-        existingAdmin.email = "admin";
-        existingAdmin.password = "@@2627";
-        existingAdmin.role = "admin";
+        adminUser.name = "admin";
+        adminUser.email = "admin";
+        adminUser.password = "@@2627";
+        adminUser.role = "admin";
     }
 
     localStorage.setItem(

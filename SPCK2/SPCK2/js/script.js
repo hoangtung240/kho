@@ -14,7 +14,7 @@ function ensureDemoAdmin() {
     }
 
     if (!Array.isArray(users)) {
-        users = [];
+        usere = [];
     }
 
     const adminEmail = "admin";

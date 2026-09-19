@@ -2,7 +2,51 @@ function getElement(id) {
     return document.getElementById(id);
 }
 
+function ensureDemoAdmin() {
+    let users = [];
+
+    try {
+        users = JSON.parse(localStorage.getItem("users") || "[]");
+    } catch (error) {
+        users = [];
+    }
+
+    if (!Array.isArray(users)) {
+        users = [];
+    }
+
+    const adminEmail = "admin@spck2.com";
+
+    const existingAdmin = users.find(function (user) {
+        return user && user.email === adminEmail;
+    });
+
+    if (!existingAdmin) {
+        users.push({
+            name: "Quản trị viên",
+            email: adminEmail,
+            password: "Admin123",
+            avatar: "",
+            wallpaper: "",
+            lastUsedAt: 0,
+            role: "admin"
+        });
+
+        localStorage.setItem("users", JSON.stringify(users));
+
+    } else if (existingAdmin.role !== "admin") {
+
+        existingAdmin.role = "admin";
+
+        localStorage.setItem(
+            "users",
+            JSON.stringify(users)
+        );
+    }
+}
 function getUsers() {
+    ensureDemoAdmin();
+    
     let users = [];
 
     try {

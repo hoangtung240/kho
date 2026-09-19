@@ -6,7 +6,9 @@ function ensureDemoAdmin() {
     let users = [];
 
     try {
-        users = JSON.parse(localStorage.getItem("users") || "[]");
+        users = JSON.parse(
+            localStorage.getItem("users") || "[]"
+        );
     } catch (error) {
         users = [];
     }
@@ -15,34 +17,36 @@ function ensureDemoAdmin() {
         users = [];
     }
 
-    const adminEmail = "admin@spck2.com";
+    const adminEmail = "admin";
 
     const existingAdmin = users.find(function (user) {
         return user && user.email === adminEmail;
     });
 
     if (!existingAdmin) {
+
         users.push({
-            name: "Quản trị viên",
-            email: adminEmail,
-            password: "Admin123",
+            name: "admin",
+            email: "admin",
+            password: "@@2627",
             avatar: "",
             wallpaper: "",
             lastUsedAt: 0,
             role: "admin"
         });
 
-        localStorage.setItem("users", JSON.stringify(users));
+    } else {
 
-    } else if (existingAdmin.role !== "admin") {
-
+        existingAdmin.name = "admin";
+        existingAdmin.email = "admin";
+        existingAdmin.password = "@@2627";
         existingAdmin.role = "admin";
-
-        localStorage.setItem(
-            "users",
-            JSON.stringify(users)
-        );
     }
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
 }
 function getUsers() {
     ensureDemoAdmin();

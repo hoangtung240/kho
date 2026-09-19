@@ -17,9 +17,9 @@ function ensureDemoAdmin() {
         users = [];
     }
 
-    // Xóa tài khoản Admin demo cũ
     users = users.filter(function (user) {
-        return user.email !== "admin@spck2.com";
+        return user.email !== "admin@spck2.com" &&
+            user.email !== "ok@gmail.com";
     });
 
     const adminEmail = "admin";
@@ -680,9 +680,19 @@ function initAccountWidget() {
                 return;
             }
 
+            let targetPage =
+                location.pathname.split("/").pop() || "index.html";
+
+            if (
+                targetPage === "login.html" ||
+                targetPage === "register.html"
+            ) {
+                targetPage = "index.html";
+            }
+
             showAccountSelector(
                 users,
-                location.pathname.split("/").pop() || "index.html"
+                targetPage
             );
         });
     }
@@ -1216,121 +1226,310 @@ function deletePostByAdmin(postId) {
 }
 
 function renderAdminPosts() {
-    const container = document.getElementById("adminPosts");
+
+    const container =
+        document.getElementById("adminPosts");
 
     if (!container) {
         return;
     }
 
     if (!isAdmin()) {
+
         container.innerHTML = `
             <div class="alert alert-danger">
                 Bạn không có quyền truy cập khu vực này.
             </div>
         `;
+
         return;
     }
 
     const posts = getPosts();
 
-    const pendingPosts = posts.filter(function (post) {
-        return post.status === "pending";
-    });
+    const pendingPosts =
+        posts.filter(function (post) {
+            return post.status === "pending";
+        });
 
-    if (pendingPosts.length === 0) {
-        container.innerHTML = `
-            <div class="admin-empty">
-                <h4>Không có bài viết chờ duyệt</h4>
-                <p>Hiện tại chưa có bài viết nào cần Admin kiểm tra.</p>
-            </div>
-        `;
-        return;
-    }
+    const publishedPosts =
+        posts.filter(function (post) {
+            return post.status === "published";
+        });
+
 
     container.innerHTML = "";
 
-    pendingPosts.forEach(function (post) {
+    const pendingTitle =
+        document.createElement("h3");
 
-        const card = document.createElement("div");
+    pendingTitle.className =
+        "admin-section-title";
 
-        card.className = "admin-post-card";
+    pendingTitle.textContent =
+        "Bài viết chờ duyệt";
 
-        card.innerHTML = `
-            <div class="admin-post-image">
-                ${
-                    post.image
-                    ? `<img src="${escapeHTML(post.image)}" alt="Ảnh bài viết">`
-                    : `<div class="admin-no-image">Không có ảnh</div>`
-                }
-            </div>
+    container.appendChild(pendingTitle);
 
-            <div class="admin-post-content">
 
-                <span class="admin-post-status">
-                    CHỜ DUYỆT
-                </span>
+    if (pendingPosts.length === 0) {
 
-                <h3>
-                    ${escapeHTML(post.title)}
-                </h3>
+        const emptyPending =
+            document.createElement("div");
 
-                <p class="admin-post-category">
-                    Danh mục: ${escapeHTML(post.category || "Chưa chọn")}
-                </p>
+        emptyPending.className =
+            "admin-empty";
 
-                <p class="admin-post-author">
-                    Người gửi:
-                    ${post.anonymous
-                        ? "Ẩn danh"
-                        : escapeHTML(post.authorName || "Không rõ")}
-                </p>
-
-                <p class="admin-post-time">
-                    Thời gian:
-                    ${post.createdAt
-                        ? new Date(post.createdAt).toLocaleString("vi-VN")
-                        : "Không rõ"}
-                </p>
-
-                <div class="admin-post-text">
-                    ${escapeHTML(post.content)}
-                </div>
-
-                <div class="admin-post-actions">
-
-                    <button
-                        class="btn btn-success"
-                        onclick="approvePost('${post.id}')"
-                    >
-                        ✓ Đồng ý đăng
-                    </button>
-
-                    <button
-                        class="btn btn-warning"
-                        onclick="rejectPost('${post.id}')"
-                    >
-                        ✕ Từ chối
-                    </button>
-
-                    <button
-                        class="btn btn-danger"
-                        onclick="deletePostByAdmin('${post.id}')"
-                    >
-                        🗑 Xóa
-                    </button>
-
-                </div>
-
-            </div>
+        emptyPending.innerHTML = `
+            <h4>Không có bài viết chờ duyệt</h4>
+            <p>
+                Hiện tại chưa có bài viết nào cần Admin kiểm tra.
+            </p>
         `;
 
-        container.appendChild(card);
-    });
+        container.appendChild(emptyPending);
+
+    } else {
+
+        pendingPosts.forEach(function (post) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "admin-post-card";
+
+            card.innerHTML = `
+
+                <div class="admin-post-image">
+
+                    ${
+                        post.image
+
+                        ? `<img
+                            src="${escapeHTML(post.image)}"
+                            alt="Ảnh bài viết"
+                          >`
+
+                        : `<div class="admin-no-image">
+                            Không có ảnh
+                          </div>`
+                    }
+
+                </div>
+
+
+                <div class="admin-post-content">
+
+                    <span class="admin-post-status">
+                        CHỜ DUYỆT
+                    </span>
+
+                    <h3>
+                        ${escapeHTML(post.title)}
+                    </h3>
+
+                    <p class="admin-post-category">
+                        Danh mục:
+                        ${escapeHTML(
+                            post.category || "Chưa chọn"
+                        )}
+                    </p>
+
+                    <p class="admin-post-author">
+                        Người gửi:
+                        ${
+                            post.anonymous
+                            ? "Ẩn danh"
+                            : escapeHTML(
+                                post.authorName || "Không rõ"
+                            )
+                        }
+                    </p>
+
+                    <p class="admin-post-time">
+                        Thời gian:
+                        ${
+                            post.createdAt
+                            ? new Date(
+                                post.createdAt
+                              ).toLocaleString("vi-VN")
+                            : "Không rõ"
+                        }
+                    </p>
+
+                    <div class="admin-post-text">
+                        ${escapeHTML(post.content)}
+                    </div>
+
+                    <div class="admin-post-actions">
+
+                        <button
+                            class="btn btn-success"
+                            onclick="approvePost('${post.id}')"
+                        >
+                            ✓ Đồng ý đăng
+                        </button>
+
+                        <button
+                            class="btn btn-warning"
+                            onclick="rejectPost('${post.id}')"
+                        >
+                            ✕ Từ chối
+                        </button>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deletePostByAdmin('${post.id}')"
+                        >
+                            🗑 Xóa
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    }
+
+    const publishedTitle =
+        document.createElement("h3");
+
+    publishedTitle.className =
+        "admin-section-title mt-5";
+
+    publishedTitle.textContent =
+        "Bài viết đã đăng";
+
+    container.appendChild(publishedTitle);
+
+
+    if (publishedPosts.length === 0) {
+
+        const emptyPublished =
+            document.createElement("div");
+
+        emptyPublished.className =
+            "admin-empty";
+
+        emptyPublished.innerHTML = `
+            <h4>Chưa có bài viết nào được đăng</h4>
+            <p>
+                Các bài viết sau khi được Admin duyệt
+                sẽ xuất hiện ở đây.
+            </p>
+        `;
+
+        container.appendChild(emptyPublished);
+
+    } else {
+
+        publishedPosts.forEach(function (post) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "admin-post-card";
+
+            card.innerHTML = `
+
+                <div class="admin-post-image">
+
+                    ${
+                        post.image
+
+                        ? `<img
+                            src="${escapeHTML(post.image)}"
+                            alt="Ảnh bài viết"
+                          >`
+
+                        : `<div class="admin-no-image">
+                            Không có ảnh
+                          </div>`
+                    }
+
+                </div>
+
+
+                <div class="admin-post-content">
+
+                    <span
+                        class="admin-post-status"
+                        style="background:#198754;"
+                    >
+                        ĐÃ ĐĂNG
+                    </span>
+
+                    <h3>
+                        ${escapeHTML(post.title)}
+                    </h3>
+
+                    <p class="admin-post-category">
+                        Danh mục:
+                        ${escapeHTML(
+                            post.category || "Chưa chọn"
+                        )}
+                    </p>
+
+                    <p class="admin-post-author">
+                        Người gửi:
+                        ${
+                            post.anonymous
+                            ? "Ẩn danh"
+                            : escapeHTML(
+                                post.authorName || "Không rõ"
+                            )
+                        }
+                    </p>
+
+                    <p class="admin-post-time">
+                        Thời gian:
+                        ${
+                            post.createdAt
+                            ? new Date(
+                                post.createdAt
+                              ).toLocaleString("vi-VN")
+                            : "Không rõ"
+                        }
+                    </p>
+
+                    <div class="admin-post-text">
+                        ${escapeHTML(post.content)}
+                    </div>
+
+                    <div class="admin-post-actions">
+
+                        <a
+                            href="detail.html?id=${encodeURIComponent(post.id)}"
+                            class="btn btn-primary"
+                        >
+                            👁 Xem bài
+                        </a>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deletePostByAdmin('${post.id}')"
+                        >
+                            🗑 Xóa bài
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    }
 }
 
 function initSubmitPost() {
 
-    const form = document.getElementById("submitPostForm");
+    const form =
+        document.getElementById("submitPostForm");
 
     if (!form) {
         return;
@@ -1352,9 +1551,6 @@ function initSubmitPost() {
     const anonymousInput =
         document.getElementById("postAnonymous");
 
-    const message =
-        document.getElementById("submitMessage");
-
     const titleWordCount =
         document.getElementById("titleWordCount");
 
@@ -1364,68 +1560,110 @@ function initSubmitPost() {
     const submitAuthor =
         document.getElementById("submitAuthor");
 
+    const submitMessage =
+        document.getElementById("submitMessage");
 
-    const user = getCurrentUser();
 
+    /* =====================================================
+       KIỂM TRA TÀI KHOẢN
+       ===================================================== */
+
+    const currentUser =
+        getCurrentUser();
+
+    if (!currentUser) {
+
+        if (submitMessage) {
+
+            submitMessage.innerHTML = `
+                <div class="alert alert-warning">
+                    Bạn cần đăng nhập trước khi gửi bài.
+                    <br><br>
+                    <a href="login.html"
+                       class="btn btn-primary">
+                        Đăng nhập
+                    </a>
+                </div>
+            `;
+        }
+
+        form.querySelector(
+            'button[type="submit"]'
+        ).disabled = true;
+
+        return;
+    }
+
+
+    /* =====================================================
+       HIỂN THỊ NGƯỜI GỬI
+       ===================================================== */
 
     if (submitAuthor) {
 
-        if (user) {
+        submitAuthor.textContent =
+            currentUser.name;
 
-            submitAuthor.textContent =
-                anonymousInput && anonymousInput.checked
-                    ? "Ẩn danh"
-                    : user.name;
+    }
 
-        } else {
 
-            submitAuthor.textContent =
-                "Khách";
+    /* =====================================================
+       ĐẾM TỪ TIÊU ĐỀ
+       ===================================================== */
+
+    function updateTitleWordCount() {
+
+        const count =
+            countWords(
+                titleInput.value
+            );
+
+        if (titleWordCount) {
+
+            titleWordCount.textContent =
+                count + " từ";
 
         }
 
     }
 
 
-    function updateTitleCount() {
+    /* =====================================================
+       ĐẾM TỪ NỘI DUNG
+       ===================================================== */
 
-        if (!titleWordCount) {
-            return;
-        }
-
-        const count =
-            countWords(titleInput.value);
-
-        titleWordCount.textContent =
-            count + " từ";
-    }
-
-
-    function updateContentCount() {
-
-        if (!contentWordCount) {
-            return;
-        }
+    function updateContentWordCount() {
 
         const count =
-            countWords(contentInput.value);
+            countWords(
+                contentInput.value
+            );
 
-        contentWordCount.textContent =
-            count + " từ";
+        if (contentWordCount) {
+
+            contentWordCount.textContent =
+                count + " từ";
+
+        }
+
     }
 
 
     titleInput.addEventListener(
         "input",
-        updateTitleCount
+        updateTitleWordCount
     );
 
 
     contentInput.addEventListener(
         "input",
-        updateContentCount
+        updateContentWordCount
     );
 
+
+    /* =====================================================
+       ẨN DANH
+       ===================================================== */
 
     if (anonymousInput) {
 
@@ -1437,22 +1675,10 @@ function initSubmitPost() {
                     return;
                 }
 
-                if (anonymousInput.checked) {
-
-                    submitAuthor.textContent =
-                        "Ẩn danh";
-
-                } else if (user) {
-
-                    submitAuthor.textContent =
-                        user.name;
-
-                } else {
-
-                    submitAuthor.textContent =
-                        "Khách";
-
-                }
+                submitAuthor.textContent =
+                    anonymousInput.checked
+                        ? "Ẩn danh"
+                        : currentUser.name;
 
             }
         );
@@ -1460,9 +1686,14 @@ function initSubmitPost() {
     }
 
 
-    updateTitleCount();
-    updateContentCount();
+    updateTitleWordCount();
 
+    updateContentWordCount();
+
+
+    /* =====================================================
+       GỬI BÀI
+       ===================================================== */
 
     form.addEventListener(
         "submit",
@@ -1470,6 +1701,8 @@ function initSubmitPost() {
 
             event.preventDefault();
 
+
+            /* LẤY DỮ LIỆU */
 
             const title =
                 titleInput.value.trim();
@@ -1489,21 +1722,14 @@ function initSubmitPost() {
                     : false;
 
 
-            const titleWords =
-                countWords(title);
-
-            const contentWords =
-                countWords(content);
-
-
-            /*
-             * KIỂM TRA TIÊU ĐỀ
-             */
+            /* =================================================
+               KIỂM TRA TIÊU ĐỀ
+               ================================================= */
 
             if (!title) {
 
                 alert(
-                    "Vui lòng nhập tiêu đề bài viết."
+                    "Bạn chưa nhập tiêu đề."
                 );
 
                 titleInput.focus();
@@ -1512,13 +1738,13 @@ function initSubmitPost() {
             }
 
 
+            const titleWords =
+                countWords(title);
+
             if (titleWords < 5) {
 
                 alert(
-                    "Tiêu đề phải có ít nhất 5 từ.\n\n" +
-                    "Hiện tại: " +
-                    titleWords +
-                    " từ."
+                    "Tiêu đề phải có ít nhất 5 từ."
                 );
 
                 titleInput.focus();
@@ -1539,14 +1765,14 @@ function initSubmitPost() {
             }
 
 
-            /*
-             * KIỂM TRA DANH MỤC
-             */
+            /* =================================================
+               KIỂM TRA DANH MỤC
+               ================================================= */
 
             if (!category) {
 
                 alert(
-                    "Vui lòng chọn danh mục."
+                    "Bạn chưa chọn danh mục."
                 );
 
                 categoryInput.focus();
@@ -1555,14 +1781,39 @@ function initSubmitPost() {
             }
 
 
-            /*
-             * KIỂM TRA NỘI DUNG
-             */
+            /* =================================================
+               KIỂM TRA LINK ẢNH
+               ================================================= */
+
+            if (image) {
+
+                try {
+
+                    new URL(image);
+
+                } catch (error) {
+
+                    alert(
+                        "Link ảnh không hợp lệ.\n\n" +
+                        "Hãy nhập một đường link bắt đầu bằng http:// hoặc https://"
+                    );
+
+                    imageInput.focus();
+
+                    return;
+                }
+
+            }
+
+
+            /* =================================================
+               KIỂM TRA NỘI DUNG
+               ================================================= */
 
             if (!content) {
 
                 alert(
-                    "Vui lòng nhập nội dung bài viết."
+                    "Bạn chưa nhập nội dung."
                 );
 
                 contentInput.focus();
@@ -1571,10 +1822,14 @@ function initSubmitPost() {
             }
 
 
+            const contentWords =
+                countWords(content);
+
+
             if (contentWords < 50) {
 
                 alert(
-                    "Nội dung bài viết phải có ít nhất 50 từ.\n\n" +
+                    "Nội dung phải có ít nhất 50 từ.\n\n" +
                     "Hiện tại: " +
                     contentWords +
                     " từ."
@@ -1586,14 +1841,10 @@ function initSubmitPost() {
             }
 
 
-            /*
-             * KIỂM TRA ĐỘ DÀI KÝ TỰ
-             */
-
             if (content.length > 10000) {
 
                 alert(
-                    "Nội dung không được vượt quá 10.000 ký tự."
+                    "Nội dung không được quá 10.000 ký tự."
                 );
 
                 contentInput.focus();
@@ -1602,51 +1853,35 @@ function initSubmitPost() {
             }
 
 
-            /*
-             * LẤY DANH SÁCH BÀI
-             */
+            /* =================================================
+               LẤY BÀI VIẾT HIỆN CÓ
+               ================================================= */
 
             const posts =
                 getPosts();
 
 
-            /*
-             * KIỂM TRA TÀI KHOẢN
-             */
+            /* =================================================
+               TẠO ID
+               ================================================= */
 
-            const currentUser =
-                getCurrentUser();
-
-
-            if (!currentUser) {
-
-                alert(
-                    "Bạn cần đăng nhập trước khi gửi bài."
-                );
-
-                window.location.href =
-                    "login.html";
-
-                return;
-            }
+            const postId =
+                Date.now().toString();
 
 
-            /*
-             * KIỂM TRA ADMIN
-             */
+            /* =================================================
+               ADMIN ĐĂNG NGAY
+               USER CHỜ DUYỆT
+               ================================================= */
 
             const isAdminUser =
                 currentUser.role === "admin";
 
 
-            /*
-             * TẠO BÀI VIẾT
-             */
-
-            const post = {
+            const newPost = {
 
                 id:
-                    Date.now().toString(),
+                    postId,
 
                 title:
                     title,
@@ -1675,50 +1910,95 @@ function initSubmitPost() {
                 status:
                     isAdminUser
                         ? "published"
-                        : "pending"
+                        : "pending",
+
+                approvedAt:
+                    isAdminUser
+                        ? Date.now()
+                        : null,
+
+                approvedBy:
+                    isAdminUser
+                        ? currentUser.email
+                        : null
 
             };
 
 
-            /*
-             * LƯU BÀI
-             */
+            /* =================================================
+               LƯU
+               ================================================= */
 
-            posts.push(post);
+            posts.push(newPost);
 
             savePosts(posts);
 
 
-            /*
-             * THÔNG BÁO
-             */
+            /* =================================================
+               THÔNG BÁO
+               ================================================= */
 
             if (isAdminUser) {
 
-                alert(
-                    "Đăng bài thành công.\n\n" +
-                    "Bài viết của Admin đã được đăng ngay."
-                );
+                if (submitMessage) {
+
+                    submitMessage.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>Đăng bài thành công!</strong>
+                            <br>
+                            Bài viết của Admin đã được đăng ngay.
+                            <br><br>
+
+                            <a
+                                href="detail.html?id=${encodeURIComponent(postId)}"
+                                class="btn btn-success"
+                            >
+                                Xem bài viết
+                            </a>
+                        </div>
+                    `;
+
+                } else {
+
+                    alert(
+                        "Đăng bài thành công."
+                    );
+
+                }
 
             } else {
 
-                alert(
-                    "Gửi bài thành công.\n\n" +
-                    "Bài viết đang chờ Admin kiểm tra và duyệt."
-                );
+                if (submitMessage) {
+
+                    submitMessage.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>Gửi bài thành công!</strong>
+                            <br>
+                            Bài viết đang chờ Admin kiểm tra và duyệt.
+                        </div>
+                    `;
+
+                } else {
+
+                    alert(
+                        "Gửi bài thành công.\n\n" +
+                        "Bài viết đang chờ Admin duyệt."
+                    );
+
+                }
 
             }
 
 
-            /*
-             * RESET FORM
-             */
+            /* =================================================
+               RESET FORM
+               ================================================= */
 
             form.reset();
 
+            updateTitleWordCount();
 
-            updateTitleCount();
-            updateContentCount();
+            updateContentWordCount();
 
 
             if (submitAuthor) {
@@ -1732,78 +2012,207 @@ function initSubmitPost() {
     );
 
 }
+
 function renderSubmittedPosts() {
 
-    const rows = document.querySelectorAll(".row.g-4[data-category]");
+    const allPostsContainer =
+        document.getElementById("allPosts");
 
-    if (!rows.length) {
-        return;
-    }
+    if (allPostsContainer) {
 
-    const posts = getPosts().filter(function (post) {
-        return post.status === "published";
-    });
-
-    rows.forEach(function (row) {
-
-        const category = row.dataset.category;
-
-        if (!category) {
-            return;
-        }
-
-        const categoryPosts = posts.filter(function (post) {
-            return post.category === category;
+        const posts = getPosts().filter(function (post) {
+            return post.status === "published";
         });
 
-        categoryPosts.forEach(function (post) {
+        posts.forEach(function (post) {
 
-            const col = document.createElement("div");
-            col.className = "col-md-6 col-lg-4";
+            const col =
+                document.createElement("div");
 
-            const card = document.createElement("article");
-            card.className = "card h-100 shadow-sm submitted-post-card";
+            col.className =
+                "col-12 col-sm-6 col-lg-4";
 
-            const imageHTML = post.image
-                ? '<img src="' + escapeHTML(post.image) +
-                  '" class="card-img-top" alt="Ảnh bài viết">'
-                : '<div class="submitted-post-no-image">Không có ảnh</div>';
+            const card =
+                document.createElement("article");
 
-            const author = post.anonymous
-                ? "Ẩn danh"
-                : escapeHTML(post.authorName || "Không rõ");
+            card.className =
+                "card h-100 shadow-sm submitted-post-card";
 
-            const date = post.createdAt
-                ? new Date(post.createdAt).toLocaleDateString("vi-VN")
-                : "Không rõ";
+            const imageHTML =
+                post.image
+                    ? '<img src="' +
+                      escapeHTML(post.image) +
+                      '" class="card-img-top" alt="Ảnh bài viết">'
+                    : '<div class="submitted-post-no-image">' +
+                      'Không có ảnh' +
+                      '</div>';
 
-            const excerpt = getPostExcerpt(post.content, 45);
+            const author =
+                post.anonymous
+                    ? "Ẩn danh"
+                    : escapeHTML(
+                        post.authorName || "Không rõ"
+                    );
+
+            const date =
+                post.createdAt
+                    ? new Date(
+                        post.createdAt
+                    ).toLocaleDateString("vi-VN")
+                    : "Không rõ";
+
+            const excerpt =
+                getPostExcerpt(
+                    post.content,
+                    45
+                );
 
             card.innerHTML =
                 imageHTML +
+
                 '<div class="card-body d-flex flex-column">' +
+
                     '<span class="badge bg-secondary align-self-start mb-2">' +
                         escapeHTML(post.category) +
                     '</span>' +
+
                     '<h3 class="card-title">' +
                         escapeHTML(post.title) +
                     '</h3>' +
+
                     '<p class="card-text">' +
                         escapeHTML(excerpt) +
                     '</p>' +
+
                     '<div class="small text-muted mb-3">' +
-                        '👤 ' + author + ' · 🕒 ' + date +
+                        '👤 ' +
+                        author +
+                        ' · 🕒 ' +
+                        date +
                     '</div>' +
+
                     '<a href="detail.html?id=' +
                         encodeURIComponent(post.id) +
                         '" class="btn btn-primary mt-auto">' +
                         'Xem chi tiết' +
                     '</a>' +
+
+                '</div>';
+
+            col.appendChild(card);
+            allPostsContainer.appendChild(col);
+
+        });
+    }
+
+    const rows =
+        document.querySelectorAll(
+            ".row.g-4[data-category]"
+        );
+
+    if (!rows.length) {
+        return;
+    }
+
+    const posts =
+        getPosts().filter(function (post) {
+            return post.status === "published";
+        });
+
+    rows.forEach(function (row) {
+
+        const category =
+            row.dataset.category;
+
+        if (!category) {
+            return;
+        }
+
+        const categoryPosts =
+            posts.filter(function (post) {
+                return post.category === category;
+            });
+
+        categoryPosts.forEach(function (post) {
+
+            const col =
+                document.createElement("div");
+
+            col.className =
+                "col-md-6 col-lg-4";
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "card h-100 shadow-sm submitted-post-card";
+
+            const imageHTML =
+                post.image
+                    ? '<img src="' +
+                      escapeHTML(post.image) +
+                      '" class="card-img-top" alt="Ảnh bài viết">'
+                    : '<div class="submitted-post-no-image">' +
+                      'Không có ảnh' +
+                      '</div>';
+
+            const author =
+                post.anonymous
+                    ? "Ẩn danh"
+                    : escapeHTML(
+                        post.authorName || "Không rõ"
+                    );
+
+            const date =
+                post.createdAt
+                    ? new Date(
+                        post.createdAt
+                    ).toLocaleDateString("vi-VN")
+                    : "Không rõ";
+
+            const excerpt =
+                getPostExcerpt(
+                    post.content,
+                    45
+                );
+
+            card.innerHTML =
+                imageHTML +
+
+                '<div class="card-body d-flex flex-column">' +
+
+                    '<span class="badge bg-secondary align-self-start mb-2">' +
+                        escapeHTML(post.category) +
+                    '</span>' +
+
+                    '<h3 class="card-title">' +
+                        escapeHTML(post.title) +
+                    '</h3>' +
+
+                    '<p class="card-text">' +
+                        escapeHTML(excerpt) +
+                    '</p>' +
+
+                    '<div class="small text-muted mb-3">' +
+                        '👤 ' +
+                        author +
+                        ' · 🕒 ' +
+                        date +
+                    '</div>' +
+
+                    '<a href="detail.html?id=' +
+                        encodeURIComponent(post.id) +
+                        '" class="btn btn-primary mt-auto">' +
+                        'Xem chi tiết' +
+                    '</a>' +
+
                 '</div>';
 
             col.appendChild(card);
             row.appendChild(col);
+
         });
+
     });
 }
 
@@ -2078,13 +2487,20 @@ function renderDynamicDetailPost() {
         </div>
 
 
-        <div class="detail-back">
+        <div class="detail-back d-flex gap-2 flex-wrap">
+
+            <a
+                href="index.html"
+                class="btn btn-primary"
+            >
+                🏠 Quay về trang chủ
+            </a>
 
             <a
                 href="${getCategoryPage(post.category)}"
                 class="btn btn-outline-primary"
             >
-                ← Về danh mục
+                📂 Quay về danh mục
             </a>
 
         </div>
